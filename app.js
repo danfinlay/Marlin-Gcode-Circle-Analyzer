@@ -20,7 +20,7 @@ function parseGcode(file){
 		segments[i] = newSeg
 	}
 	//console.log(JSON.stringify(segments, null, '\t'))
-	var center = centerOf(segments)
+	var center = centerOfFullCircle(segments)
 	
 	var average = findMean(segments, center)
 
@@ -78,6 +78,22 @@ function centerOf(points){
 //	console.log("Farthest: "+JSON.stringify(farthestPoint)+" origin point: "+JSON.stringify(points[0]))
 
 	return centerBetweenPoints(farthestPoint, points[0])	
+}
+
+function centerOfFullCircle(points){
+	var total = {X:0, Y:0}
+	var realCount = 0
+	points.forEach(function(point){
+		if(point.X&&point.Y){
+			realCount++
+			total.X+=point.X
+			total.Y+=point.Y
+		}
+	})
+	return {
+		X: total.X/realCount,
+		Y: total.Y/realCount
+	}
 }
 
 function centerBetweenPoints(a, b){
