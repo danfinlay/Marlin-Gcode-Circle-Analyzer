@@ -1,8 +1,15 @@
 var fs = require('fs')
+var http = require('http')
+
 
 fs.readFile('./'+process.argv[2], function(err, file){
 	if(!err){
-		parseGcode(file)
+		var points = parseGcode(file)
+		var server = http.createServer(function(req, res){
+			res.writeHead(200)
+			res.end(JSON.stringify(points))
+		})
+		server.listen(8000)
 	}
 });
 
@@ -35,8 +42,16 @@ function parseGcode(file){
 			varianceTotal+=segment.Variance	
 			if(segment.D) trueCount++
 		}
-	})			 	
-	console.log("Standard deviation: "+Math.sqrt(varianceTotal/trueCount))	
+	})
+
+	//sanitizing the list:
+	var cleanPoints = []
+	segments.forEach(function(point){
+		if(point.D) cleanPoints.push(point)
+	})
+
+	console.log("Standard deviation: "+Math.sqrt(varianceTotal/trueCount))
+	return cleanPoints	
 }
 
 function findMean(set, center){
