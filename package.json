@@ -1,0 +1,23 @@
+{
+  "name": "circle-checker",
+  "version": "0.0.0",
+  "description": "Check if a series of Marlin-Gcode instructions for a circular curve",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "reprap",
+    "marlin",
+    "gcode",
+    "circle",
+    "curve",
+    "test"
+  ],
+  "author": "Dan Finlay",
+  "license": "MIT",
+  "dependencies": {
+    "through": "~2.3.4",
+    "gcodejs": "0.0.1"
+  }
+}
